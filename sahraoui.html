@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Espace Responsable Pédagogique</title>
+
+<style>
+
+body{
+font-family:Arial, Helvetica, sans-serif;
+margin:0;
+background:#f2f5fa;
+}
+
+header{
+background:#2f5be3;
+color:white;
+padding:15px;
+font-size:20px;
+}
+
+.menu{
+display:flex;
+background:white;
+border-bottom:1px solid #ddd;
+}
+
+.menu button{
+flex:1;
+padding:15px;
+border:none;
+background:white;
+cursor:pointer;
+font-size:14px;
+}
+
+.menu button:hover{
+background:#f0f0f0;
+}
+
+.section{
+display:none;
+padding:20px;
+}
+
+.active{
+display:block;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+th,td{
+border:1px solid #ccc;
+padding:10px;
+text-align:center;
+}
+
+.lock{
+font-size:20px;
+cursor:pointer;
+}
+
+button{
+padding:10px 15px;
+background:#2f5be3;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+margin-top:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+Espace Responsable Pédagogique - M. Sahraoui
+</header>
+
+<div class="menu">
+<button onclick="showSection('trimestres')">Gestion des trimestres</button>
+<button onclick="showSection('appreciations')">Appréciations</button>
+<button onclick="showSection('bulletins')">Bulletins</button>
+<button onclick="showSection('programmation')">Fin de trimestre</button>
+</div>
+
+<div id="trimestres" class="section active">
+
+<h2>Verrouillage des trimestres</h2>
+
+<table>
+
+<tr>
+<th>Trimestre</th>
+<th>État</th>
+</tr>
+
+<tr>
+<td>Trimestre 1</td>
+<td class="lock">🔒</td>
+</tr>
+
+<tr>
+<td>Trimestre 2</td>
+<td class="lock">🔒</td>
+</tr>
+
+<tr>
+<td>Trimestre 3</td>
+<td class="lock">🔓</td>
+</tr>
+
+</table>
+
+<p>Seul le responsable pédagogique peut ouvrir ou fermer les trimestres.</p>
+
+</div>
+
+<div id="appreciations" class="section">
+
+<h2>Appréciations des professeurs</h2>
+
+<table>
+
+<tr>
+<th>Élève</th>
+<th>Matière</th>
+<th>Appréciation professeur</th>
+</tr>
+
+<tr>
+<td>Asia Gueblaoui</td>
+<td>Maths</td>
+<td>Très bon travail</td>
+</tr>
+
+<tr>
+<td>Ahmed Gueblaoui</td>
+<td>Français</td>
+<td>Peut mieux faire</td>
+</tr>
+
+<tr>
+<td>Mohamed Amine Gueblaoui</td>
+<td>Anglais</td>
+<td>Excellent niveau</td>
+</tr>
+
+<tr>
+<td>Abdelrahman Gueblaoui</td>
+<td>Sciences islamiques</td>
+<td>Travail sérieux</td>
+</tr>
+
+<tr>
+<td>Issa Sadi</td>
+<td>Sport</td>
+<td>Très actif</td>
+</tr>
+
+</table>
+
+</div>
+
+<div id="bulletins" class="section">
+
+<h2>Validation des bulletins</h2>
+
+<table>
+
+<tr>
+<th>Élève</th>
+<th>Moyenne générale</th>
+<th>Action</th>
+</tr>
+
+<tr>
+<td>Asia Gueblaoui</td>
+<td>15</td>
+<td><button>Valider</button></td>
+</tr>
+
+<tr>
+<td>Ahmed Gueblaoui</td>
+<td>12</td>
+<td><button>Valider</button></td>
+</tr>
+
+<tr>
+<td>Mohamed Amine Gueblaoui</td>
+<td>14</td>
+<td><button>Valider</button></td>
+</tr>
+
+<tr>
+<td>Abdelrahman Gueblaoui</td>
+<td>13</td>
+<td><button>Valider</button></td>
+</tr>
+
+<tr>
+<td>Issa Sadi</td>
+<td>16</td>
+<td><button>Valider</button></td>
+</tr>
+
+</table>
+
+</div>
+
+<div id="programmation" class="section">
+
+<h2>Programmation fin de trimestre</h2>
+
+<p>Choisir dans combien de temps activer les appréciations :</p>
+
+<select>
+<option>1 heure</option>
+<option>2 heures</option>
+<option>3 heures</option>
+</select>
+
+<br><br>
+
+<button>Lancer la programmation</button>
+
+</div>
+
+<script>
+
+function showSection(id){
+
+let sections=document.querySelectorAll(".section");
+
+sections.forEach(section=>{
+section.classList.remove("active");
+});
+
+document.getElementById(id).classList.add("active");
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+body{
+font-family:Arial, Helvetica, sans-serif;
+margin:0;
+background:#f2f5fa;
+}
+
+/* HEADER */
+
+header{
+background:#2f5be3;
+color:white;
+padding:15px;
+font-size:20px;
+}
+
+/* MENU */
+
+.menu{
+display:flex;
+background:white;
+border-bottom:1px solid #ddd;
+}
+
+.menu button{
+flex:1;
+padding:15px;
+border:none;
+background:white;
+cursor:pointer;
+font-size:14px;
+}
+
+.menu button:hover{
+background:#f0f0f0;
+}
+
+/* SECTIONS */
+
+.section{
+display:none;
+padding:20px;
+}
+
+.active{
+display:block;
+}
+
+/* TABLEAUX */
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+background:white;
+}
+
+th,td{
+border:1px solid #ccc;
+padding:10px;
+text-align:center;
+}
+
+th{
+background:#e8ecff;
+}
+
+/* BOUTONS */
+
+button{
+padding:10px 15px;
+background:#2f5be3;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1f47c0;
+}
+
+/* ALERTES */
+
+.alert{
+color:red;
+font-weight:bold;
+}
+
+/* NOTES */
+
+.note{
+font-weight:bold;
+font-size:16px;
+}
+
+/* COMPETENCES */
+
+.comp{
+width:12px;
+height:12px;
+border-radius:50%;
+display:inline-block;
+margin:2px;
+}
+
+.vert{background:green;}
+.bleu{background:blue;}
+.jaune{background:gold;}
+.rouge{background:red;}
+
+/* CADENAS */
+
+.lock{
+font-size:20px;
+cursor:pointer;
+}
