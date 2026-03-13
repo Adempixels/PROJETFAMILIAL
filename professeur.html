@@ -3,19 +3,20 @@
 
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Espace Professeur</title>
+
+<link rel="stylesheet" href="style.css">
 
 <style>
 
 body{
-font-family:Arial, Helvetica, sans-serif;
+font-family:Arial;
 margin:0;
 background:#f2f5fa;
 }
 
 header{
-background:#3b6ef5;
+background:#2f5be3;
 color:white;
 padding:15px;
 font-size:20px;
@@ -33,11 +34,6 @@ padding:15px;
 border:none;
 background:white;
 cursor:pointer;
-font-size:14px;
-}
-
-.menu button:hover{
-background:#f0f0f0;
 }
 
 .section{
@@ -61,24 +57,6 @@ padding:10px;
 text-align:center;
 }
 
-input[type="number"]{
-width:60px;
-}
-
-.save-btn{
-margin-top:15px;
-padding:10px 20px;
-background:#3b6ef5;
-color:white;
-border:none;
-border-radius:5px;
-cursor:pointer;
-}
-
-textarea{
-width:100%;
-}
-
 </style>
 
 </head>
@@ -90,58 +68,102 @@ Espace Professeur
 </header>
 
 <div class="menu">
+
 <button onclick="showSection('notes')">Notes</button>
 <button onclick="showSection('devoirs')">Devoirs</button>
 <button onclick="showSection('mots')">Mots</button>
 <button onclick="showSection('appel')">Appel</button>
 <button onclick="showSection('appreciations')">Appréciations</button>
+
 </div>
 
 <div id="notes" class="section active">
 
 <h2>Notes</h2>
 
+<button>✏️ Créer une évaluation</button>
+
 <table>
 
 <tr>
 <th>Élève</th>
-<th>Contrôle 1</th>
-<th>Contrôle 2</th>
+<th>Note</th>
+<th>Statut</th>
 </tr>
 
 <tr>
-<td>Asia Gueblaoui</td>
+<td>Assia Gueblaoui</td>
 <td><input type="number"></td>
-<td><input type="number"></td>
+<td>
+<select>
+<option></option>
+<option>ABS</option>
+<option>RET</option>
+<option>Dispensé</option>
+<option>Facultatif</option>
+</select>
+</td>
 </tr>
 
 <tr>
 <td>Ahmed Gueblaoui</td>
 <td><input type="number"></td>
-<td><input type="number"></td>
+<td>
+<select>
+<option></option>
+<option>ABS</option>
+<option>RET</option>
+<option>Dispensé</option>
+<option>Facultatif</option>
+</select>
+</td>
 </tr>
 
 <tr>
 <td>Mohamed Amine Gueblaoui</td>
 <td><input type="number"></td>
-<td><input type="number"></td>
+<td>
+<select>
+<option></option>
+<option>ABS</option>
+<option>RET</option>
+<option>Dispensé</option>
+<option>Facultatif</option>
+</select>
+</td>
 </tr>
 
 <tr>
 <td>Abdelrahman Gueblaoui</td>
 <td><input type="number"></td>
-<td><input type="number"></td>
+<td>
+<select>
+<option></option>
+<option>ABS</option>
+<option>RET</option>
+<option>Dispensé</option>
+<option>Facultatif</option>
+</select>
+</td>
 </tr>
 
 <tr>
-<td>Issa Sadi</td>
+<td>Isaac Sahli</td>
 <td><input type="number"></td>
-<td><input type="number"></td>
+<td>
+<select>
+<option></option>
+<option>ABS</option>
+<option>RET</option>
+<option>Dispensé</option>
+<option>Facultatif</option>
+</select>
+</td>
 </tr>
 
 </table>
 
-<button class="save-btn">Enregistrer les notes</button>
+<button>Enregistrer les notes</button>
 
 </div>
 
@@ -149,19 +171,29 @@ Espace Professeur
 
 <h2>Ajouter un devoir</h2>
 
-<input type="text" placeholder="Titre du devoir"><br><br>
+<input type="text" placeholder="Titre du devoir">
 
-<input type="date"><br><br>
+<br><br>
+
+<textarea placeholder="Description du devoir"></textarea>
+
+<br><br>
 
 <label>
-<input type="checkbox"> Alerte travail à rendre
-</label><br>
+<input type="checkbox">
+Alerte devoir
+</label>
+
+<br>
 
 <label>
-<input type="checkbox"> Alerte évaluation
-</label><br><br>
+<input type="checkbox">
+Alerte évaluation
+</label>
 
-<button class="save-btn">Publier le devoir</button>
+<br><br>
+
+<button>Publier</button>
 
 </div>
 
@@ -170,19 +202,21 @@ Espace Professeur
 <h2>Envoyer un mot</h2>
 
 <select>
+
 <option>Avertissement</option>
 <option>Information</option>
 <option>Félicitations</option>
 <option>Remarque</option>
+
 </select>
 
 <br><br>
 
-<textarea rows="5" placeholder="Message"></textarea>
+<textarea placeholder="Message"></textarea>
 
 <br><br>
 
-<button class="save-btn">Envoyer</button>
+<button>Envoyer</button>
 
 </div>
 
@@ -199,7 +233,7 @@ Espace Professeur
 </tr>
 
 <tr>
-<td>Asia Gueblaoui</td>
+<td>Assia Gueblaoui</td>
 <td><input type="radio" name="a1"></td>
 <td><input type="radio" name="a1"></td>
 </tr>
@@ -223,14 +257,14 @@ Espace Professeur
 </tr>
 
 <tr>
-<td>Issa Sadi</td>
+<td>Isaac Sahli</td>
 <td><input type="radio" name="a5"></td>
 <td><input type="radio" name="a5"></td>
 </tr>
 
 </table>
 
-<button class="save-btn">Enregistrer l'appel</button>
+<button>Envoyer l'appel</button>
 
 </div>
 
@@ -242,43 +276,37 @@ Espace Professeur
 
 <tr>
 <th>Élève</th>
-<th>Moyenne</th>
 <th>Appréciation</th>
 </tr>
 
 <tr>
-<td>Asia Gueblaoui</td>
-<td>15</td>
+<td>Assia Gueblaoui</td>
 <td><input type="text"></td>
 </tr>
 
 <tr>
 <td>Ahmed Gueblaoui</td>
-<td>11</td>
 <td><input type="text"></td>
 </tr>
 
 <tr>
 <td>Mohamed Amine Gueblaoui</td>
-<td>14</td>
 <td><input type="text"></td>
 </tr>
 
 <tr>
 <td>Abdelrahman Gueblaoui</td>
-<td>13</td>
 <td><input type="text"></td>
 </tr>
 
 <tr>
 <td>Isaac Sahli</td>
-<td>16</td>
 <td><input type="text"></td>
 </tr>
 
 </table>
 
-<button class="save-btn">Enregistrer les appréciations</button>
+<button>Enregistrer</button>
 
 </div>
 
