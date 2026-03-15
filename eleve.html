@@ -1,74 +1,42 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Espace Élève</title>
 
 <style>
 
 body{
-font-family:Arial, Helvetica, sans-serif;
-margin:0;
-background:#f2f5fa;
-}
-
-header{
-background:#3b6ef5;
-color:white;
-padding:15px;
-font-size:20px;
-}
-
-.menu{
-display:flex;
-background:white;
-border-bottom:1px solid #ddd;
-}
-
-.menu button{
-flex:1;
-padding:15px;
-border:none;
-background:white;
-cursor:pointer;
-font-size:14px;
-}
-
-.menu button:hover{
-background:#f0f0f0;
-}
-
-.section{
-display:none;
-padding:20px;
-}
-
-.active{
-display:block;
+font-family:Arial;
+background:#f4f6f9;
+padding:30px;
 }
 
 table{
-width:100%;
 border-collapse:collapse;
-margin-top:15px;
+width:100%;
+background:white;
 }
 
 th,td{
-border:1px solid #ccc;
-padding:10px;
+border:1px solid #ddd;
+padding:8px;
 text-align:center;
 }
 
-.note{
-font-weight:bold;
+.dot{
+height:14px;
+width:14px;
+border-radius:50%;
+display:inline-block;
 }
 
-.alert{
-color:red;
-font-weight:bold;
-}
+.red{background:red}
+.orange{background:orange}
+.green{background:green}
+.blue{background:blue}
 
 </style>
 
@@ -76,249 +44,108 @@ font-weight:bold;
 
 <body>
 
-<header>
-Espace Élève
-</header>
-
-<div class="menu">
-<button onclick="showSection('notes')">Notes</button>
-<button onclick="showSection('devoirs')">Devoirs</button>
-<button onclick="showSection('mots')">Mots</button>
-<button onclick="showSection('appreciations')">Appréciations</button>
-<button onclick="showSection('presence')">Présence</button>
-<button onclick="showSection('bulletin')">Bulletin</button>
-</div>
-
-<div id="notes" class="section active">
-
-<h2>Notes</h2>
+<h1>Mes notes</h1>
 
 <table>
 
-<tr>
-<th>Matière</th>
-<th>Note</th>
-<th>Coefficient</th>
-</tr>
+<thead id="thead"></thead>
 
-<tr>
-<td>Maths</td>
-<td class="note">15</td>
-<td>1</td>
-</tr>
-
-<tr>
-<td>Français</td>
-<td class="note">13</td>
-<td>1</td>
-</tr>
-
-<tr>
-<td>Anglais</td>
-<td class="note">16</td>
-<td>2</td>
-</tr>
-
-<tr>
-<td>Sciences islamiques</td>
-<td class="note">14</td>
-<td>5</td>
-</tr>
-
-<tr>
-<td>Sport</td>
-<td class="note">17</td>
-<td>1</td>
-</tr>
+<tbody id="tbody"></tbody>
 
 </table>
 
-</div>
+<script type="module">
 
-<div id="devoirs" class="section">
+import { db } from "./firebase.js"
 
-<h2>Devoirs</h2>
+import {
+collection,
+getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
 
-<table>
+const eleve="Assia Gueblaoui"
 
-<tr>
-<th>Date</th>
-<th>Matière</th>
-<th>Message</th>
-</tr>
+let evaluations=[]
+let notes=[]
 
-<tr>
-<td>15 mars</td>
-<td>Maths</td>
-<td class="alert">Alerte devoir - exercices page 42</td>
-</tr>
+const thead=document.getElementById("thead")
+const tbody=document.getElementById("tbody")
 
-<tr>
-<td>18 mars</td>
-<td>Français</td>
-<td class="alert">Alerte travail à rendre</td>
-</tr>
+async function chargerEvaluations(){
 
-</table>
+const snap=await getDocs(collection(db,"evaluations"))
 
-</div>
+evaluations=[]
 
-<div id="mots" class="section">
-
-<h2>Mots</h2>
-
-<table>
-
-<tr>
-<th>Date</th>
-<th>Type</th>
-<th>Message</th>
-</tr>
-
-<tr>
-<td>10 mars</td>
-<td>Avertissement</td>
-<td>Retard en classe</td>
-</tr>
-
-<tr>
-<td>12 mars</td>
-<td>Félicitations</td>
-<td>Excellent travail</td>
-</tr>
-
-</table>
-
-</div>
-
-<div id="appreciations" class="section">
-
-<h2>Appréciations</h2>
-
-<table>
-
-<tr>
-<th>Matière</th>
-<th>Appréciation</th>
-</tr>
-
-<tr>
-<td>Maths</td>
-<td>Bon travail</td>
-</tr>
-
-<tr>
-<td>Français</td>
-<td>Peut mieux faire</td>
-</tr>
-
-<tr>
-<td>Anglais</td>
-<td>Très bon niveau</td>
-</tr>
-
-<tr>
-<td>Sciences islamiques</td>
-<td>Travail sérieux</td>
-</tr>
-
-</table>
-
-</div>
-
-<div id="presence" class="section">
-
-<h2>Présence</h2>
-
-<table>
-
-<tr>
-<th>Date</th>
-<th>Matière</th>
-<th>Statut</th>
-</tr>
-
-<tr>
-<td>15 mars</td>
-<td>Maths</td>
-<td>Présent</td>
-</tr>
-
-<tr>
-<td>16 mars</td>
-<td>Français</td>
-<td>Absent</td>
-</tr>
-
-</table>
-
-</div>
-
-<div id="bulletin" class="section">
-
-<h2>Bulletin trimestriel</h2>
-
-<table>
-
-<tr>
-<th>Matière</th>
-<th>Moyenne</th>
-<th>Coefficient</th>
-<th>Appréciation</th>
-</tr>
-
-<tr>
-<td>Maths</td>
-<td>15</td>
-<td>1</td>
-<td>Bon travail</td>
-</tr>
-
-<tr>
-<td>Français</td>
-<td>13</td>
-<td>1</td>
-<td>Élève sérieux</td>
-</tr>
-
-<tr>
-<td>Anglais</td>
-<td>16</td>
-<td>2</td>
-<td>Très bon niveau</td>
-</tr>
-
-<tr>
-<td>Sciences islamiques</td>
-<td>14</td>
-<td>5</td>
-<td>Travail régulier</td>
-</tr>
-
-<tr>
-<td>Sport</td>
-<td>17</td>
-<td>1</td>
-<td>Très actif</td>
-</tr>
-
-</table>
-
-</div>
-
-<script>
-
-function showSection(id){
-
-let sections=document.querySelectorAll(".section");
-
-sections.forEach(section=>{
-section.classList.remove("active");
-});
-
-document.getElementById(id).classList.add("active");
+snap.forEach(d=>{
+evaluations.push({id:d.id,...d.data()})
+})
 
 }
+
+async function chargerNotes(){
+
+const snap=await getDocs(collection(db,"notes"))
+
+notes=[]
+
+snap.forEach(d=>{
+notes.push(d.data())
+})
+
+}
+
+function competenceAuto(note){
+
+if(note<8) return "red"
+
+if(note<12) return "orange"
+
+if(note<16) return "green"
+
+return "blue"
+
+}
+
+function afficher(){
+
+thead.innerHTML="<tr><th>Evaluation</th><th>Note</th><th>Compétence</th></tr>"
+
+tbody.innerHTML=""
+
+evaluations.forEach(e=>{
+
+const noteEleve=notes.find(n=>n.eleve===eleve && n.evaluation===e.titre)
+
+if(noteEleve){
+
+const couleur=competenceAuto(noteEleve.note)
+
+tbody.innerHTML+=`
+<tr>
+<td>${e.titre}</td>
+<td>${noteEleve.note}</td>
+<td><span class="dot ${couleur}"></span></td>
+</tr>
+`
+
+}
+
+})
+
+}
+
+async function init(){
+
+await chargerEvaluations()
+
+await chargerNotes()
+
+afficher()
+
+}
+
+init()
 
 </script>
 
