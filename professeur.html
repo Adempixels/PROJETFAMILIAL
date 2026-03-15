@@ -1,60 +1,57 @@
 <!DOCTYPE html>
-<html lang="fr">
-
+<html>
 <head>
 <meta charset="UTF-8">
 <title>Espace Professeur</title>
-
-<link rel="stylesheet" href="style.css">
 
 <style>
 
 body{
 font-family:Arial;
-margin:0;
-background:#f2f5fa;
+background:#f4f6f9;
+padding:30px;
 }
 
-header{
-background:#2f5be3;
-color:white;
-padding:15px;
-font-size:20px;
+h1{
+color:#333;
 }
 
-.menu{
-display:flex;
-background:white;
-border-bottom:1px solid #ddd;
-}
-
-.menu button{
-flex:1;
-padding:15px;
+button{
+padding:10px 18px;
 border:none;
-background:white;
+background:#2d6cdf;
+color:white;
+border-radius:6px;
 cursor:pointer;
 }
 
-.section{
-display:none;
-padding:20px;
-}
-
-.active{
-display:block;
+button:hover{
+background:#1e4fb0;
 }
 
 table{
+margin-top:20px;
 width:100%;
+background:white;
 border-collapse:collapse;
-margin-top:15px;
 }
 
 th,td{
-border:1px solid #ccc;
-padding:10px;
+border:1px solid #ddd;
+padding:8px;
 text-align:center;
+}
+
+input{
+width:60px;
+}
+
+select{
+padding:4px;
+}
+
+.evaluationBar{
+margin-top:20px;
 }
 
 </style>
@@ -63,266 +60,183 @@ text-align:center;
 
 <body>
 
-<header>
-Espace Professeur
-</header>
+<h1>Espace Professeur</h1>
 
-<div class="menu">
-
-<button onclick="showSection('notes')">Notes</button>
-<button onclick="showSection('devoirs')">Devoirs</button>
-<button onclick="showSection('mots')">Mots</button>
-<button onclick="showSection('appel')">Appel</button>
-<button onclick="showSection('appreciations')">Appréciations</button>
-
+<div class="evaluationBar">
+<button onclick="creerEvaluation()">Créer une évaluation</button>
 </div>
 
-<div id="notes" class="section active">
+<table id="tableNotes">
 
-<h2>Notes</h2>
-
-<button>✏️ Créer une évaluation</button>
-
-<table>
-
+<thead id="thead">
 <tr>
 <th>Élève</th>
-<th>Note</th>
-<th>Statut</th>
+<th>Moyenne</th>
 </tr>
+</thead>
 
-<tr>
-<td>Assia Gueblaoui</td>
-<td><input type="number"></td>
-<td>
-<select>
-<option></option>
-<option>ABS</option>
-<option>RET</option>
-<option>Dispensé</option>
-<option>Facultatif</option>
-</select>
-</td>
-</tr>
-
-<tr>
-<td>Ahmed Gueblaoui</td>
-<td><input type="number"></td>
-<td>
-<select>
-<option></option>
-<option>ABS</option>
-<option>RET</option>
-<option>Dispensé</option>
-<option>Facultatif</option>
-</select>
-</td>
-</tr>
-
-<tr>
-<td>Mohamed Amine Gueblaoui</td>
-<td><input type="number"></td>
-<td>
-<select>
-<option></option>
-<option>ABS</option>
-<option>RET</option>
-<option>Dispensé</option>
-<option>Facultatif</option>
-</select>
-</td>
-</tr>
-
-<tr>
-<td>Abdelrahman Gueblaoui</td>
-<td><input type="number"></td>
-<td>
-<select>
-<option></option>
-<option>ABS</option>
-<option>RET</option>
-<option>Dispensé</option>
-<option>Facultatif</option>
-</select>
-</td>
-</tr>
-
-<tr>
-<td>Isaac Sahli</td>
-<td><input type="number"></td>
-<td>
-<select>
-<option></option>
-<option>ABS</option>
-<option>RET</option>
-<option>Dispensé</option>
-<option>Facultatif</option>
-</select>
-</td>
-</tr>
+<tbody id="tbody"></tbody>
 
 </table>
 
-<button>Enregistrer les notes</button>
+<script type="module">
 
-</div>
+import { db } from "./firebase.js"
 
-<div id="devoirs" class="section">
+import {
+collection,
+addDoc,
+getDocs,
+deleteDoc,
+doc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
 
-<h2>Ajouter un devoir</h2>
+const eleves=[
+"Assia Gueblaoui",
+"Ahmed Gueblaoui",
+"Mohamed Amine Gueblaoui",
+"Abdelrahman Gueblaoui",
+"Isaac Sahli"
+]
 
-<input type="text" placeholder="Titre du devoir">
+let evaluations=[]
 
-<br><br>
+const tbody=document.getElementById("tbody")
+const thead=document.getElementById("thead")
 
-<textarea placeholder="Description du devoir"></textarea>
+// charger les evaluations
 
-<br><br>
+async function chargerEvaluations(){
 
-<label>
-<input type="checkbox">
-Alerte devoir
-</label>
+const snap=await getDocs(collection(db,"evaluations"))
+
+evaluations=[]
+
+snap.forEach(d=>{
+evaluations.push({id:d.id,...d.data()})
+})
+
+afficherTableau()
+
+}
+
+window.creerEvaluation=async function(){
+
+const titre=prompt("Nom de l'évaluation")
+
+if(!titre)return
+
+await addDoc(collection(db,"evaluations"),{
+
+titre:titre,
+coefficient:1,
+date:new Date().toISOString()
+
+})
+
+chargerEvaluations()
+
+}
+
+// supprimer evaluation
+
+async function supprimerEvaluation(id){
+
+await deleteDoc(doc(db,"evaluations",id))
+
+chargerEvaluations()
+
+}
+
+// afficher tableau
+
+function afficherTableau(){
+
+thead.innerHTML="<tr><th>Élève</th>"
+
+evaluations.forEach(e=>{
+
+thead.innerHTML+=`
+<th>
+${e.titre}
+<br>
+<button onclick="supprimerEvaluation('${e.id}')">❌</button>
+</th>
+`
+
+})
+
+thead.innerHTML+="<th>Moyenne</th></tr>"
+
+tbody.innerHTML=""
+
+eleves.forEach(nom=>{
+
+let row=`<tr><td>${nom}</td>`
+
+evaluations.forEach((e,i)=>{
+
+row+=`
+<td>
+
+<input type="number" id="${nom}-${i}" min="0" max="20">
 
 <br>
 
-<label>
-<input type="checkbox">
-Alerte évaluation
-</label>
-
-<br><br>
-
-<button>Publier</button>
-
-</div>
-
-<div id="mots" class="section">
-
-<h2>Envoyer un mot</h2>
-
-<select>
-
-<option>Avertissement</option>
-<option>Information</option>
-<option>Félicitations</option>
-<option>Remarque</option>
-
+<select id="comp-${nom}-${i}">
+<option></option>
+<option>Insuffisant</option>
+<option>Fragile</option>
+<option>Satisfaisant</option>
+<option>Très bon</option>
 </select>
 
-<br><br>
+</td>
+`
 
-<textarea placeholder="Message"></textarea>
+})
 
-<br><br>
+row+=`<td id="moy-${nom}">-</td></tr>`
 
-<button>Envoyer</button>
+tbody.innerHTML+=row
 
-</div>
-
-<div id="appel" class="section">
-
-<h2>Appel</h2>
-
-<table>
-
-<tr>
-<th>Élève</th>
-<th>Présent</th>
-<th>Absent</th>
-</tr>
-
-<tr>
-<td>Assia Gueblaoui</td>
-<td><input type="radio" name="a1"></td>
-<td><input type="radio" name="a1"></td>
-</tr>
-
-<tr>
-<td>Ahmed Gueblaoui</td>
-<td><input type="radio" name="a2"></td>
-<td><input type="radio" name="a2"></td>
-</tr>
-
-<tr>
-<td>Mohamed Amine Gueblaoui</td>
-<td><input type="radio" name="a3"></td>
-<td><input type="radio" name="a3"></td>
-</tr>
-
-<tr>
-<td>Abdelrahman Gueblaoui</td>
-<td><input type="radio" name="a4"></td>
-<td><input type="radio" name="a4"></td>
-</tr>
-
-<tr>
-<td>Isaac Sahli</td>
-<td><input type="radio" name="a5"></td>
-<td><input type="radio" name="a5"></td>
-</tr>
-
-</table>
-
-<button>Envoyer l'appel</button>
-
-</div>
-
-<div id="appreciations" class="section">
-
-<h2>Appréciations</h2>
-
-<table>
-
-<tr>
-<th>Élève</th>
-<th>Appréciation</th>
-</tr>
-
-<tr>
-<td>Assia Gueblaoui</td>
-<td><input type="text"></td>
-</tr>
-
-<tr>
-<td>Ahmed Gueblaoui</td>
-<td><input type="text"></td>
-</tr>
-
-<tr>
-<td>Mohamed Amine Gueblaoui</td>
-<td><input type="text"></td>
-</tr>
-
-<tr>
-<td>Abdelrahman Gueblaoui</td>
-<td><input type="text"></td>
-</tr>
-
-<tr>
-<td>Isaac Sahli</td>
-<td><input type="text"></td>
-</tr>
-
-</table>
-
-<button>Enregistrer</button>
-
-</div>
-
-<script>
-
-function showSection(id){
-
-let sections=document.querySelectorAll(".section");
-
-sections.forEach(section=>{
-section.classList.remove("active");
-});
-
-document.getElementById(id).classList.add("active");
+})
 
 }
+
+// calcul moyenne
+
+window.calculerMoyennes=function(){
+
+eleves.forEach(nom=>{
+
+let total=0
+let count=0
+
+evaluations.forEach((e,i)=>{
+
+const val=document.getElementById(`${nom}-${i}`)
+
+if(val && val.value){
+
+total+=parseFloat(val.value)
+count++
+
+}
+
+})
+
+const moy=count? (total/count).toFixed(2):"-"
+
+document.getElementById(`moy-${nom}`).innerText=moy
+
+})
+
+}
+
+setInterval(calculerMoyennes,2000)
+
+chargerEvaluations()
 
 </script>
 
